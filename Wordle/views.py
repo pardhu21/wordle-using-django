@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from .models import Word
+import random
 
 def default(request):
     return redirect('home')
@@ -9,7 +11,9 @@ def home(request):
     if request.session.get('guess_counter') == None:
         request.session['guess_counter'] = 0
     if answer is None:
-        request.session['answer'] = 'WATER'
+        words = Word.objects.all()
+        request.session['answer'] = random.choice([word_object.word for word_object in words])
+        print(request.session['answer'])
     for i in range(6):
         temp = request.session.get(str(i))
         if temp is None:
@@ -57,6 +61,7 @@ def check_end(request, guess_count):
         messages.info(request, responses[guess_count])
         return redirect('home')
     if guess_count == 5:
+        messages.info(request, request.session.get('answer').upper())
         request.session['message'] = request.session.get('answer').upper()
         return redirect('home')
 
