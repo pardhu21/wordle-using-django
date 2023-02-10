@@ -18,7 +18,7 @@ def home(request):
         temp = request.session.get(str(i))
         if temp is None:
             request.session[str(i)] = [['', ''], ['', ''], ['', ''], ['', ''], ['', '']]
-    return render(request, 'Wordle/home.html')
+    return render(request, 'Wordle/hom.html')
 
 def check_word(request):
     if request.method == 'POST':
